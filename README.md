@@ -7,7 +7,7 @@ A modern **login screen UI** for the Banque Misr mobile application — built us
 ## 🎥 Demo Video
 
 Watch the full demo on LinkedIn 👇  
-🎮 [Click here to watch the video](https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME/)
+ [Click here to watch the video](https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME/)
 
 ---
 
@@ -48,7 +48,7 @@ git clone https://github.com/AnasAyman13/BanqueMisrLogin.git
 
 ---
 
-## 👨‍💻 Developer
+##  Developer
 
 **Anas Ayman El-Gebaili**  
 💼 [LinkedIn](https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME/)  
