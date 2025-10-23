@@ -7,7 +7,8 @@ A modern **login screen UI** for the Banque Misr mobile application — built us
 ## 🎥 Demo Video
 
 Watch the full demo on LinkedIn 👇  
- [Click here to watch the video]([https://www.linkedin.com/posts/anasayman13_android-jetpackcompose-kotlin-activity-7387193604324196352-gQHs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEnBkXIBKTJ6DykIoZwkgWXGnxE_KUe1yIg])
+ [Click here to watch the video]
+ ([https://www.linkedin.com/posts/anasayman13_android-jetpackcompose-kotlin-activity-7387193604324196352-gQHs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEnBkXIBKTJ6DykIoZwkgWXGnxE_KUe1yIg])
 
 ---
 
