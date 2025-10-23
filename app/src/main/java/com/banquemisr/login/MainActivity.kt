@@ -1,5 +1,6 @@
 package com.banquemisr.login
 
+import android.app.Activity
 import android.os.Bundle
 import android.os.LocaleList
 import androidx.activity.ComponentActivity
@@ -15,12 +16,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
@@ -31,6 +34,7 @@ import androidx.core.os.LocaleListCompat
 import com.banquemisr.login.ui.theme.BanqueMisrLoginTheme
 import com.banquemisr.login.ui.theme.Redd
 import java.util.*
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +65,9 @@ class MainActivity : ComponentActivity() {
     fun Login(modifier: Modifier = Modifier) {
         var username by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var passwordVisible by remember { mutableStateOf(false) }
         val isLoginEnabled = username.isNotBlank() && password.isNotBlank()
+        val context = LocalContext.current
 
 
 
@@ -92,13 +98,24 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding(top = 64.dp)
                         .clickable {
-                            val currentLang = LocaleManager.getSelectedLanguage(this@MainActivity)
-                            val newLang = if (currentLang == "ar") "en" else "ar"
-                            LocaleManager.setLocale(this@MainActivity, newLang)
-                            recreate()
-                        }
+                            try {
+                                val currentLang = Locale.getDefault().language
+                                val newLang = if (currentLang == "ar") "en" else "ar"
 
+                                LocaleManager.setLocale(context, newLang)
+
+
+                                val activity = context as? Activity
+                                activity?.let {
+                                    it.finish()
+                                    it.startActivity(it.intent)
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
                 )
+
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -108,16 +125,28 @@ class MainActivity : ComponentActivity() {
                 onValueChange = { username = it },
                 label = { Text(stringResource(R.string.username)) },
                 modifier = Modifier.fillMaxWidth()
+
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+
 
             TextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text(stringResource(R.string.password)) },
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    val image = if (passwordVisible)
+                        painterResource(id = R.drawable.baseline_remove_red_eye_24)
+                    else
+                        painterResource(id = R.drawable.baseline_visibility_off_24)
+
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(painter = image, contentDescription = "Toggle password visibility")
+                    }
+                },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -132,7 +161,7 @@ class MainActivity : ComponentActivity() {
                     .padding(start = 4.dp)
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = { /* TODO: handle login */ },
@@ -177,6 +206,8 @@ class MainActivity : ComponentActivity() {
                     .padding(start = 4.dp)
             )
 
+            Spacer(modifier = Modifier.height(32.dp))
+
             Divider(
                 color = Color.LightGray,
                 thickness = 1.dp,
@@ -192,7 +223,7 @@ class MainActivity : ComponentActivity() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp),
+                    .padding(top = 4.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -222,8 +253,8 @@ class MainActivity : ComponentActivity() {
 
             Text(
                 text = stringResource(id = labelRes),
-                fontSize = 16.sp,
-                lineHeight = 14.sp,
+                fontSize = 14.sp,
+                lineHeight = 13.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
